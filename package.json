@@ -5,7 +5,7 @@
   "dependencies": {
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "14.0.0",
-    "@testing-library/user-event": "13.5.0",
+    "@testing-library/user-event": "14.4.3",
     "@types/jest": "27.5.2",
     "@types/node": "16.18.36",
     "@types/react": "18.2.13",
@@ -43,6 +43,11 @@
   },
   "devDependencies": {
     "@testing-library/cypress": "9.0.0",
-    "cypress": "12.15.0"
-  }
+    "cypress": "12.15.0",
+    "msw": "1.2.2"
+  },
+  "msw": {
+    "workerDirectory": "public"
+  },
+  "type": "module"
 }
