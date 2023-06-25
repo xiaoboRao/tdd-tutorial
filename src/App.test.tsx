@@ -2,49 +2,51 @@ import { render, screen, within, act } from '@testing-library/react'
 import App from './App'
 import userEvent from '@testing-library/user-event'
 
-test('should render todo list', () => {
+test('should render todo list', async () => {
   // given
   render(<App />)
   // when
-  const todos = screen.getAllByTestId('todo-item')
+  const todos = await screen.findAllByTestId('todo-item')
   // then
   expect(todos).toHaveLength(3)
 })
 
-test('should add todo', () => {
+test('should add todo', async () => {
   // given
   render(<App />)
-  act(() => {
-    // when
-    userEvent.type(screen.getByPlaceholderText("What's your plan?"), 'buy milk{enter}')
-  })
+  // when
+  await userEvent.type(await screen.findByPlaceholderText("What's your plan?"), 'buy milk{enter}')
   // then
   expect(screen.getAllByTestId('todo-item')).toHaveLength(4)
 })
 
-test('should remove todo', () => {
+test('should remove todo', async () => {
   // given
   render(<App />)
 
-  act(() => {
-    // when
-    userEvent.click(within(screen.getByText('Learn about React')).getByTestId('remove-todo'))
-  })
+  // when
+  await userEvent.click(within(await screen.findByText('Learn about React')).getByTestId('remove-todo'))
   // then
   expect(screen.getAllByTestId('todo-item')).toHaveLength(2)
 })
 
-test('should toggle todo', () => {
+test('should toggle todo', async () => {
   // given
   render(<App />)
+  let todo = await screen.findByText('Learn about React')
 
-  let firstTodo = within(screen.getByText('Learn about React'))
-
-  act(() => {
-    // when
-    userEvent.click(firstTodo.getByText('Complete'))
-  })
-  firstTodo = within(screen.getByText('Learn about React'))
+  let firstTodo = within(todo)
+  // when
+  await userEvent.click(await firstTodo.findByText('Complete'))
+  firstTodo = within(await screen.findByText('Learn about React'))
   // then
-  expect(firstTodo.getByText('Redo')).toBeInTheDocument()
+  expect(await firstTodo.findByText('Redo')).toBeInTheDocument()
+})
+
+test('should get todos from api directly', async () => {
+  // given
+  render(<App />)
+  let todo = await screen.findByText(/Build something/i)
+  // then
+  expect(todo).toBeInTheDocument()
 })

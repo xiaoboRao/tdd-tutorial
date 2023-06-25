@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import { Todo } from './components/Todo'
 import { TodoForm } from './components/TodoForm'
@@ -7,20 +7,20 @@ import { toggleOneTodo } from './utils/toggleOneTodo'
 import './App.css'
 
 function App() {
-  const [todos, setTodos] = useState<TodoType[]>([
-    {
-      text: 'Learn about React',
-      isCompleted: false,
-    },
-    {
-      text: 'Meet friend for lunch',
-      isCompleted: false,
-    },
-    {
-      text: 'Build really cool todo app',
-      isCompleted: false,
-    },
-  ])
+  const [todos, setTodos] = useState<TodoType[]>([])
+  const [loading, setLoading] = useState<Boolean>(false)
+
+  useEffect(() => {
+    setLoading(true)
+    fetch('/todos')
+      .then((res) => res.json())
+      .then((data) => {
+        setTodos(data)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [])
 
   const addTodo = (text: string) => {
     const newTodos = [...todos, { text }]
@@ -36,6 +36,10 @@ function App() {
     const newTodos = [...todos]
     newTodos.splice(index, 1)
     setTodos(newTodos)
+  }
+
+  if (loading) {
+    return <div>loading</div>
   }
 
   return (
