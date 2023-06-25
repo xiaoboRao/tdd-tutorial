@@ -16,13 +16,13 @@ describe('TodoForm', () => {
     expect(addTodo).not.toBeCalled()
   })
 
-  test('TodoForm add todo when input is not empty', () => {
+  test('TodoForm add todo when input is not empty', async () => {
     // given
     const addTodo = jest.fn()
     render(<TodoForm addTodo={addTodo} />)
 
     // when
-    userEvent.type(screen.getByPlaceholderText("What's your plan?"), 'buy milk{enter}')
+    await userEvent.type(screen.getByPlaceholderText("What's your plan?"), 'buy milk{enter}')
 
     // then
     expect(addTodo).toBeCalledWith('buy milk')

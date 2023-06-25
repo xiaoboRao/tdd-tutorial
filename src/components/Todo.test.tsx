@@ -45,7 +45,7 @@ describe('Todo component', () => {
     expect(element).toBeInTheDocument()
   })
 
-  test('should toggle item when todo not completed', () => {
+  test('should toggle item when todo not completed', async () => {
     // given
     const todo = {
       id: 1,
@@ -58,14 +58,14 @@ describe('Todo component', () => {
     // when
     const element = screen.getByText('Complete')
     // mock the click event
-    userEvent.click(element)
+    await userEvent.click(element)
     //then
     expect(toggleTodo).toHaveBeenCalledTimes(1)
 
     expect(element).toBeInTheDocument()
   })
 
-  test('should remove item', () => {
+  test('should remove item', async () => {
     // given
     const todo = {
       id: 1,
@@ -78,7 +78,7 @@ describe('Todo component', () => {
     // when
     const element = screen.getByText('x')
     // mock the click event
-    userEvent.click(element)
+    await userEvent.click(element)
     //then
     expect(removeTodo).toHaveBeenCalledTimes(1)
   })
