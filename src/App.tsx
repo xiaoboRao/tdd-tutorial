@@ -1,42 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import './App.css'
+import { useSelector } from 'react-redux'
 import { Todo } from './components/Todo'
 import { TodoForm } from './components/TodoForm'
-import { TodoType } from './types'
-import { toggleOneTodo } from './utils/toggleOneTodo'
+import { RootState } from './store/todo'
 import './App.css'
 
 function App() {
-  const [todos, setTodos] = useState<TodoType[]>([])
+  const todos = useSelector((state: RootState) => state.todo)
   const [loading, setLoading] = useState<Boolean>(false)
-
-  useEffect(() => {
-    setLoading(true)
-    fetch('/todos')
-      .then((res) => res.json())
-      .then((data) => {
-        setTodos(data)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }, [])
-
-  const addTodo = (text: string) => {
-    const newTodos = [...todos, { text }]
-    setTodos(newTodos)
-  }
-
-  const toggleTodo = (index: number) => {
-    const newTodos = toggleOneTodo(todos, index)
-    setTodos(newTodos)
-  }
-
-  const removeTodo = (index: number) => {
-    const newTodos = [...todos]
-    newTodos.splice(index, 1)
-    setTodos(newTodos)
-  }
 
   if (loading) {
     return <div>loading</div>
@@ -46,9 +18,9 @@ function App() {
     <div className="app">
       <div className="todo-list">
         {todos.map((todo, index) => (
-          <Todo key={index} index={index} todo={todo} toggleTodo={toggleTodo} removeTodo={removeTodo} />
+          <Todo key={index} index={index} todo={todo} />
         ))}
-        <TodoForm addTodo={addTodo} />
+        <TodoForm />
       </div>
     </div>
   )

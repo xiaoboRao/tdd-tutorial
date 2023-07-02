@@ -1,30 +1,31 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { TodoForm } from './TodoForm'
 import userEvent from '@testing-library/user-event'
+import { renderWithRedux } from '../utils/renderWithRedux'
+import { store } from '../store/todo'
 
+jest.spyOn(store, 'dispatch')
 describe('TodoForm', () => {
   test('TodoForm enter empty input', () => {
     // given
-    const addTodo = jest.fn()
-    render(<TodoForm addTodo={addTodo} />)
+    renderWithRedux(<TodoForm />, { store })
 
     // when
     userEvent.type(screen.getByPlaceholderText("What's your plan?"), '{enter}')
 
     // then
 
-    expect(addTodo).not.toBeCalled()
+    expect(store.dispatch).not.toBeCalled()
   })
 
   test('TodoForm add todo when input is not empty', async () => {
     // given
-    const addTodo = jest.fn()
-    render(<TodoForm addTodo={addTodo} />)
+    renderWithRedux(<TodoForm />, { store })
 
     // when
     await userEvent.type(screen.getByPlaceholderText("What's your plan?"), 'buy milk{enter}')
 
     // then
-    expect(addTodo).toBeCalledWith('buy milk')
+    expect(store.dispatch).toBeCalledWith(expect.objectContaining({ payload: 'buy milk' }))
   })
 })

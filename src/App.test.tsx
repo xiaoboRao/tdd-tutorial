@@ -1,10 +1,11 @@
-import { render, screen, within, act } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import App from './App'
+import { renderWithRedux } from './utils/renderWithRedux'
 import userEvent from '@testing-library/user-event'
 
 test('should render todo list', async () => {
   // given
-  render(<App />)
+  renderWithRedux(<App />)
   // when
   const todos = await screen.findAllByTestId('todo-item')
   // then
@@ -13,7 +14,7 @@ test('should render todo list', async () => {
 
 test('should add todo', async () => {
   // given
-  render(<App />)
+  renderWithRedux(<App />)
   // when
   await userEvent.type(await screen.findByPlaceholderText("What's your plan?"), 'buy milk{enter}')
   // then
@@ -22,7 +23,7 @@ test('should add todo', async () => {
 
 test('should remove todo', async () => {
   // given
-  render(<App />)
+  renderWithRedux(<App />)
 
   // when
   await userEvent.click(within(await screen.findByText('Learn about React')).getByTestId('remove-todo'))
@@ -32,7 +33,7 @@ test('should remove todo', async () => {
 
 test('should toggle todo', async () => {
   // given
-  render(<App />)
+  renderWithRedux(<App />)
   let todo = await screen.findByText('Learn about React')
 
   let firstTodo = within(todo)
@@ -45,7 +46,7 @@ test('should toggle todo', async () => {
 
 test('should get todos from api directly', async () => {
   // given
-  render(<App />)
+  renderWithRedux(<App />)
   let todo = await screen.findByText(/Build something/i)
   // then
   expect(todo).toBeInTheDocument()

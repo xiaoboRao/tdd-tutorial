@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { worker } from './mock/browser'
+import { Provider } from 'react-redux'
+import { store } from './store/todo'
 if (process.env.NODE_ENV === 'development') {
   worker.start()
 }
@@ -13,9 +15,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
-);
+)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
