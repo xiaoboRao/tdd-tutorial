@@ -1,46 +1,77 @@
-# Getting Started with Create React App
+# Todo List App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a simple Todo List app built with React and Redux, with Jest and Testing Library for testing. The app allows you to add, remove, and toggle todo items, as well as fetch todo items from an API.
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+To install the app, clone the repository and run:
 
-### `npm start`
+```
+npm install
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Usage
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+To start the app, run:
 
-### `npm test`
+```
+npm run start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This will start the app in development mode and open it in your default browser at `http://localhost:3000`.
 
-### `npm run build`
+## Testing
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To run the tests, run:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+npm run test
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This will run the Jest test suite and you can also generate a coverage report using blow command.
+```
+npm run test --coverage
+```
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Code Structure
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The app consists of the following components:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- `App`: The main component that renders the list of todo items and provides the ability to add, remove, and toggle items.
+- `Todo`: A component that renders a single todo item and provides the ability to toggle and remove it.
+- `TodoForm`: A component that renders a form for adding new todo items.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The app also includes a Redux store with a `todo` slice that manages the state of the todo items.
 
-## Learn More
+## Testing Overview
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The app includes a comprehensive set of Jest tests that cover its basic functionality and interactions with the Redux store and external APIs. The tests use the `@testing-library/react` and `@testing-library/user-event` packages to interact with the rendered components and assert on their behavior.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The test suite includes the following test cases:
+
+### App component:
+
+- `should render todo list`: Checks that the `App` component initially renders a list of three todo items.
+- `should add todo`: Checks that a new todo item can be added to the list.
+- `should remove todo`: Checks that a todo item can be removed from the list.
+- `should toggle todo`: Checks that a todo item can be toggled between completed and not completed states.
+- `should get todos from redux directly`: Checks that the `App` component can fetch todo items from an API and render them directly.
+
+### Todo component:
+
+- `should render new item`: Checks that the `Todo` component renders a new, uncompleted todo item with the correct text.
+- `should render completed item`: Checks that the `Todo` component renders a completed todo item with the correct text and a "Complete" button.
+- `should render redo item`: Checks that the `Todo` component renders an uncompleted todo item with the correct text and a "Redo" button.
+- `should toggle item`: Checks that the `Todo` component correctly dispatches a toggle action when the user clicks the "Redo" button.
+- `should toggle item when todo not completed`: Checks that the `Todo` component correctly dispatches a toggle action when the user clicks the "Complete" button on an uncompleted todo item.
+- `should remove item`: Checks that the `Todo` component correctly dispatches a delete action when the user clicks the "x" button to remove the todo item.
+
+### TodoForm component:
+
+- `TodoForm enter empty input`: Checks that the `TodoForm` component does not dispatch an action when the user hits the `Enter` key with an empty input field.
+- `TodoForm add todo when input is not empty`: Checks that the `TodoForm` component correctly dispatches an action when the user hits the `Enter` key with a non-empty input field.
+
+## Acknowledgements
+
+This app was built as a sample project for demonstrating React and Redux features and testing with Jest and Testing Library. The code for this app was based on various online tutorials and examples. and this readme file is generated by ChatGPT, and have a little bit modification by me.
