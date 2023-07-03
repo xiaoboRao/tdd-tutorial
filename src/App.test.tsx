@@ -44,7 +44,7 @@ test('should toggle todo', async () => {
   expect(await firstTodo.findByText('Redo')).toBeInTheDocument()
 })
 
-test('should get todos from api directly', async () => {
+test('should get todos from redux directly', async () => {
   // given
   renderWithRedux(<App />)
   let todo = await screen.findByText(/Build something/i)
